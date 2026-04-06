@@ -6,5 +6,5 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AppUserService extends UserDetailsService {
-//    AppUserResponse register(@Valid AppUserRequest request);
+    AppUserResponse register(@Valid AppUserRequest request);
 }

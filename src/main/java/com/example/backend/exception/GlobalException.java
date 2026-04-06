@@ -3,15 +3,46 @@ package com.example.backend.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalException {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException e, HttpServletRequest request) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("type", "about:blank");
+        error.put("title", "Validation Failed");
+        error.put("status", 400);
+        error.put("instance", request.getRequestURI());
+
+        List<Map<String, String>> errors = e.getBindingResult().getFieldErrors().stream()
+                .map(fe -> Map.of("field", fe.getField(), "message", fe.getDefaultMessage()))
+                .collect(Collectors.toList());
+        error.put("errors", errors);
+        error.put("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFound(NotFoundException e, HttpServletRequest request) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("type", "about:blank");
+        error.put("title", "Not Found");
+        error.put("status", 404);
+        error.put("detail", e.getMessage());
+        error.put("instance", request.getRequestURI());
+        error.put("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(DuplicateUserException.class)
     public ResponseEntity<Map<String, Object>> handleDuplicateUser(DuplicateUserException e, HttpServletRequest request) {
         Map<String, Object> error = new LinkedHashMap<>();
@@ -40,5 +71,17 @@ public class GlobalException {
 
         error.put("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneral(Exception e, HttpServletRequest request) {
+        Map<String, Object> error = new LinkedHashMap<>();
+        error.put("type", "about:blank");
+        error.put("title", "Internal Server Error");
+        error.put("status", 500);
+        error.put("detail", "An unexpected error occurred.");
+        error.put("instance", request.getRequestURI());
+        error.put("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }
