@@ -1,0 +1,20 @@
+package com.example.backend.model.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ApiResponse <T> {
+    private boolean success;
+    private String message;
+    private String status;
+    private T payload;
+    private Instant timestamp;
+}
