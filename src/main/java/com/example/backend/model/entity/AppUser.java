@@ -21,11 +21,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @NullMarked
 public class AppUser implements UserDetails {
-    private UUID appUserId;
-    private String userName;
+    private UUID userId;
+    private String fullName;
     private String email;
     private String password;
+    private String phoneNumber;
+    private String userPhoto;
+    private boolean isStudent;
+    private UUID genId;
     private Instant createAt;
+    private Instant updateAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,9 +45,5 @@ public class AppUser implements UserDetails {
     @Override
     public String getUsername() {
         return email;
-    }
-
-    public String getRealUserName() {
-        return userName;
     }
 }

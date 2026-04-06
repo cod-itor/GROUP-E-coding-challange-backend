@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUserResponse {
-    private UUID appUserId;
+    private UUID userId;
     @JsonProperty("username")
     private String userName;
     private String email;
