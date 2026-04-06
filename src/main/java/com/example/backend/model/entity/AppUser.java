@@ -28,9 +28,9 @@ public class AppUser implements UserDetails {
     private String phoneNumber;
     private String userPhoto;
     private boolean isStudent;
-    private UUID genId;
-    private Instant createAt;
-    private Instant updateAt;
+    private Long genNum;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

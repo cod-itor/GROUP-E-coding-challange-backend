@@ -31,3 +31,18 @@ VALUES ('Alice Johnson', 'alice.j@hrd.edu.kh', crypt('Teacher@123', gen_salt('bf
        ('Julia Child', 'julia.c@hrd.edu.kh', crypt('Teacher@123', gen_salt('bf')), '012345687', FALSE,
         (SELECT gen_id FROM generations WHERE gen_num = 13));
 
+INSERT INTO classrooms (class_id, class_name) VALUES
+                                                  (gen_random_uuid(), 'PVH'),
+                                                  (gen_random_uuid(), 'SR'),
+                                                  (gen_random_uuid(), 'PP');
+
+INSERT INTO generations (gen_id, gen_num) VALUES (gen_random_uuid(), 1),
+                                                 (gen_random_uuid(), 2),
+                                                 (gen_random_uuid(), 3),
+                                                 (gen_random_uuid(), 4),
+                                                 (gen_random_uuid(), 5),
+                                                 (gen_random_uuid(), 6),
+                                                 (gen_random_uuid(), 7),
+                                                 (gen_random_uuid(), 8),
+                                                 (gen_random_uuid(), 9),
+                                                 (gen_random_uuid(), 10);

@@ -70,18 +70,18 @@ public class AuthController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-//    @Operation(summary = "Register a new user")
-//    @PostMapping("/register")
-//    public ResponseEntity<ApiResponse<AppUserResponse>> register(@RequestBody @Valid AppUserRequest request){
-//        AppUserResponse appUserResponse = appUserService.register(request);
-//
-//        ApiResponse<AppUserResponse> apiResponse = ApiResponse.<AppUserResponse>builder()
-//                .success(true)
-//                .message("User registered successfully! Please verify your email to complete the registration.")
-//                .status(HttpStatus.CREATED.name())
-//                .payload(appUserResponse)
-//                .timestamp(Instant.now())
-//                .build();
-//        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-//    }
+    @Operation(summary = "Register a new user")
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<AppUserResponse>> register(@RequestBody @Valid AppUserRequest request){
+        AppUserResponse appUserResponse = appUserService.register(request);
+
+        ApiResponse<AppUserResponse> apiResponse = ApiResponse.<AppUserResponse>builder()
+                .success(true)
+                .message("User registered successfully! Please verify your email to complete the registration.")
+                .status(HttpStatus.CREATED.name())
+                .payload(appUserResponse)
+                .timestamp(Instant.now())
+                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
 }
