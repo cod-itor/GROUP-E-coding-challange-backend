@@ -1,6 +1,7 @@
 package com.example.backend.jwt;
 
 
+import com.example.backend.service.AppUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,10 +34,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String email = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            email = jwtService.extractUsername(token);
+            try {
+                email = jwtService.extractUsername(token);
+            } catch (Exception e) {
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails;
+            UserDetails userDetails ;
             try {
                 userDetails = appUserService.loadUserByUsername(email);
             } catch (UsernameNotFoundException e) {
